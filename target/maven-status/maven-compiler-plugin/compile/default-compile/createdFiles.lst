@@ -1,0 +1,4 @@
+com/example/store/web/CatalogServlet.class
+com/example/store/web/CartServlet.class
+com/example/store/model/Product.class
+com/example/store/service/ProductService.class
