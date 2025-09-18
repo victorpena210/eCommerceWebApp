@@ -1,4 +1,7 @@
 /Users/victorpena/Desktop/IdeaProjects/ecommerce-web-skeleton/src/main/java/com/example/store/model/Product.java
+/Users/victorpena/Desktop/IdeaProjects/ecommerce-web-skeleton/src/main/java/com/example/store/model/User.java
 /Users/victorpena/Desktop/IdeaProjects/ecommerce-web-skeleton/src/main/java/com/example/store/service/ProductService.java
+/Users/victorpena/Desktop/IdeaProjects/ecommerce-web-skeleton/src/main/java/com/example/store/service/UserService.java
 /Users/victorpena/Desktop/IdeaProjects/ecommerce-web-skeleton/src/main/java/com/example/store/web/CartServlet.java
 /Users/victorpena/Desktop/IdeaProjects/ecommerce-web-skeleton/src/main/java/com/example/store/web/CatalogServlet.java
+/Users/victorpena/Desktop/IdeaProjects/ecommerce-web-skeleton/src/main/java/com/example/store/web/SignUpServlet.java
