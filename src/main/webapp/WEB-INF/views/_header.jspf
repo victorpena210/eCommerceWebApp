@@ -1,6 +1,16 @@
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
-<!doctype html><html><head><meta charset="utf-8"><title>${pageTitle}</title></head><body>
-<p><a href="${pageContext.request.contextPath}/">Home</a>
- | <a href="${pageContext.request.contextPath}/signup">Sign up</a>
- | <a href="${pageContext.request.contextPath}/login">Log in</a>
- | <a href="${pageContext.request.contextPath}/account">Account</a></p><hr/>
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>${pageTitle}</title>
+</head>
+<body>
+  <nav style="padding:.75rem; border-bottom:1px solid #ddd;">
+    <a href="${pageContext.request.contextPath}/">Home</a>
+    | <a href="${pageContext.request.contextPath}/products">Catalog</a>
+    | <a href="${pageContext.request.contextPath}/cart">Cart</a>
+    | <a href="${pageContext.request.contextPath}/signup">Sign up</a>
+    | <a href="${pageContext.request.contextPath}/login">Log in</a>
+    | <a href="${pageContext.request.contextPath}/account">Account</a>
+  </nav>

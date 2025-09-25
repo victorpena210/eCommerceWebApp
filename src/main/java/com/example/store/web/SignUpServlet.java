@@ -48,7 +48,7 @@ public class SignUpServlet extends HttpServlet {
 		} catch (IllegalArgumentException e) {
 			//missing fields
 			request.setAttribute("error", e.getMessage());
-			request.getRequestDispatcher("/WEB-INF/vies/signup.jsp").forward(request, response);
+			request.getRequestDispatcher("/WEB-INF/views/signup.jsp").forward(request, response);
 			
 		}
 	}
