@@ -43,7 +43,7 @@ public class SignUpServlet extends HttpServlet {
 		} catch (IllegalStateException e) {
 			//email already registerd
 			request.setAttribute("error", e.getMessage());
-			request.getRequestDispatcher("/WEB-INF/vies/signup.jsp").forward(request, response);
+			request.getRequestDispatcher("/WEB-INF/views/signup.jsp").forward(request, response);
 			
 		} catch (IllegalArgumentException e) {
 			//missing fields

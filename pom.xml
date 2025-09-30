@@ -50,6 +50,11 @@
         </dependency>
 
         <!-- Add JDBC / JSON / other libs below as needed -->
+		<dependency>
+  			<groupId>com.mysql</groupId>
+  			<artifactId>mysql-connector-j</artifactId>
+  			<version>8.4.0</version>   <!-- LTS line -->
+		</dependency>
     </dependencies>
 
     <build>

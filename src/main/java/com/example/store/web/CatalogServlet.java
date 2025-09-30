@@ -25,11 +25,13 @@ public class CatalogServlet extends HttpServlet {
             int id = Integer.parseInt(idParam);
             HttpSession session = req.getSession();
             @SuppressWarnings("unchecked")
-            List<Integer> cart = (List<Integer>) session.getAttribute("cart");
-            if (cart == null) { cart = new ArrayList<>(); }
-            cart.add(id);
-            session.setAttribute("cart", cart);
+            Map<Integer, Integer> cart = (Map<Integer,Integer>) session.getAttribute("cartMap");
+            if (cart == null) { cart = new LinkedHashMap<>(); 
+            cart.merge(id, 1, Integer::sum);
+            session.setAttribute("cartMap", cart);
+            }
         }
+
         resp.sendRedirect(req.getContextPath() + "/catalog");
     }
 }

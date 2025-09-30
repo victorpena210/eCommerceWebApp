@@ -1,21 +1,62 @@
 package com.example.store.service;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 import com.example.store.model.Product;
+import javax.naming.InitialContext;
+import javax.sql.DataSource;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ProductService {
-    private static final List<Product> PRODUCTS = new ArrayList<>();
-    static {
-        PRODUCTS.add(new Product(1, "Hardwood Oak Suffolk Internal Door", "Doors", 109.99));
-        PRODUCTS.add(new Product(2, "Oregon Cottage Interior Oak Door", "Doors", 179.99));
-        PRODUCTS.add(new Product(3, "Oregon Cottage Horizontal Interior White Oak Door", "Doors", 189.99));
-        PRODUCTS.add(new Product(4, "4 Panel Oak Deco Interior Door", "Doors", 209.09));
-        PRODUCTS.add(new Product(5, "Worcester 2000 30kW Ng Combi Boiler Includes Free Comfort+ II controller", "Boilers", 989.99));
-        PRODUCTS.add(new Product(6, "Glow-worm Betacom 4 30kW Combi Gas Boiler ERP", "Boilers", 787.99));
-        PRODUCTS.add(new Product(7, "Worcester 2000 25kW Ng Combi Boiler with Free Comfort+ II controller", "Boilers", 859.99));
+    private final DataSource ds;
+
+    public ProductService() {
+        try {
+            InitialContext ctx = new InitialContext();
+            ds = (DataSource) ctx.lookup("java:comp/env/jdbc/app");
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to lookup DataSource jdbc/app", e);
+        }
     }
-    public List<Product> getAll() { return Collections.unmodifiableList(PRODUCTS); }
-    public Product findById(int id) { return PRODUCTS.stream().filter(p -> p.getId() == id).findFirst().orElse(null); }
+
+    public List<Product> getAll() {
+        String sql = "SELECT id, name, category, price FROM products ORDER BY id";
+        List<Product> out = new ArrayList<>();
+        try (Connection c = ds.getConnection();
+             PreparedStatement ps = c.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+            while (rs.next()) {
+                out.add(new Product(
+                    rs.getInt("id"),
+                    rs.getString("name"),
+                    rs.getString("category"),
+                    rs.getDouble("price")
+                ));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Query products failed", e);
+        }
+        return out;
+    }
+
+    public Product findById(int id) {
+        String sql = "SELECT id, name, category, price FROM products WHERE id = ?";
+        try (Connection c = ds.getConnection();
+             PreparedStatement ps = c.prepareStatement(sql)) {
+            ps.setInt(1, id);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return new Product(
+                        rs.getInt("id"),
+                        rs.getString("name"),
+                        rs.getString("category"),
+                        rs.getDouble("price")
+                    );
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Query product by id failed", e);
+        }
+        return null;
+    }
 }
