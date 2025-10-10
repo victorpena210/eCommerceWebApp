@@ -21,8 +21,8 @@ public class User {
 	}
 
 
-	public void setId(long id2) {
-		this.id = (int) id2;
+	public void setId(long id) {
+		this.id = (int) id;
 	}
 
 

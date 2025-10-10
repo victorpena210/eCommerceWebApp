@@ -7,6 +7,8 @@ import javax.sql.DataSource;
 import java.sql.*;
 import java.util.Objects;
 
+
+
 // If you want hashing now, see the BCrypt section below.
 public class UserService {
     private final DataSource ds;
@@ -42,6 +44,7 @@ public class UserService {
     }
 
     public User register(String email, String password, String fullName) {
+    	
         // TODO: hash the password before storing (e.g., BCrypt)
         final String sql = "INSERT INTO users (email, password, full_name) VALUES (?, ?, ?)";
 
