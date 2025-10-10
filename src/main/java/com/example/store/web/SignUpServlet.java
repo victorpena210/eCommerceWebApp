@@ -41,7 +41,7 @@ public class SignUpServlet extends HttpServlet {
 			//redirect to catalog (or a welcome page)
 			response.sendRedirect(request.getContextPath() + "/catalog");
 		} catch (IllegalStateException e) {
-			//email already registerd
+			//email already registered
 			request.setAttribute("error", e.getMessage());
 			request.getRequestDispatcher("/WEB-INF/views/signup.jsp").forward(request, response);
 			

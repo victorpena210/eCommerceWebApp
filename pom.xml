@@ -55,6 +55,14 @@
   			<artifactId>mysql-connector-j</artifactId>
   			<version>8.4.0</version>   <!-- LTS line -->
 		</dependency>
+		
+		<!-- Connection pool -->
+		<dependency>
+ 			 <groupId>com.zaxxer</groupId>
+  			<artifactId>HikariCP</artifactId>
+  			<version>5.1.0</version>
+		</dependency>
+
     </dependencies>
 
     <build>

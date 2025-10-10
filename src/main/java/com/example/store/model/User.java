@@ -5,7 +5,8 @@ public class User {
 	private String email;
 	private String password;
 	private String fullName;
-	
+
+	public User() {}
 	
 	public User(int id, String email, String password, String fullName) {
 		this.id = id;
@@ -20,8 +21,8 @@ public class User {
 	}
 
 
-	public void setId(int id) {
-		this.id = id;
+	public void setId(long id2) {
+		this.id = (int) id2;
 	}
 
 
