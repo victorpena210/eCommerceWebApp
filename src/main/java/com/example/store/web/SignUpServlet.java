@@ -36,10 +36,12 @@ public class SignUpServlet extends HttpServlet {
 			
 			//"log them in" by saving to session
 			HttpSession session = request.getSession(true);
-			session.setAttribute("currentUser", user);
+			request.changeSessionId();
+			user.setPassword(null);
+			session.setAttribute("user", user);
 			
 			//redirect to catalog (or a welcome page)
-			response.sendRedirect(request.getContextPath() + "/catalog");
+			response.sendRedirect(request.getContextPath() + "/account");
 		} catch (IllegalStateException e) {
 			//email already registered
 			request.setAttribute("error", e.getMessage());
