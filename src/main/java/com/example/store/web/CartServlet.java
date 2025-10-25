@@ -16,20 +16,26 @@ public class CartServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession(false);
         List<Product> items = new ArrayList<>();
+
         if (session != null) {
             @SuppressWarnings("unchecked")
-            Map<Integer, Integer> cart = (Map<Integer, Integer>) session.getAttribute("cart");
-            if (cart != null) {
+            Map<Integer, Integer> cart = (Map<Integer, Integer>) session.getAttribute("cartMap");
+            if (cart != null && !cart.isEmpty()) {
                 for (Map.Entry<Integer, Integer> e : cart.entrySet()) {
-                	Integer id = e.getKey();
-                	Integer qty = e.getValue();
-                	if (qty != null && qty > 0) {
-                		Product p = productService.findById(id);
-                        if (p != null) items.add(p);
-                	}
+                    Integer id = e.getKey();
+                    Integer qty = e.getValue();
+                    if (qty != null && qty > 0) {
+                        Product p = productService.findById(id);
+                        if (p != null) {
+                            // if you want to show duplicates per quantity:
+                            for (int i = 0; i < qty; i++) items.add(p);
+                            // OR, if you prefer one row with qty, pass `cart` to the JSP too.
+                        }
+                    }
                 }
             }
         }
+
         req.setAttribute("items", items);
         req.getRequestDispatcher("/WEB-INF/views/cart.jsp").forward(req, resp);
     }

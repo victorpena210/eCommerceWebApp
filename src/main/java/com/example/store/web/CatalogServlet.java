@@ -6,7 +6,6 @@ import jakarta.servlet.http.*;
 import java.io.IOException;
 import java.util.*;
 import com.example.store.service.ProductService;
-import com.example.store.model.Product;
 
 @WebServlet(name = "CatalogServlet", urlPatterns = {"/catalog"})
 public class CatalogServlet extends HttpServlet {
@@ -25,13 +24,13 @@ public class CatalogServlet extends HttpServlet {
             int id = Integer.parseInt(idParam);
             HttpSession session = req.getSession();
             @SuppressWarnings("unchecked")
-            Map<Integer, Integer> cart = (Map<Integer,Integer>) session.getAttribute("cartMap");
-            if (cart == null) { cart = new LinkedHashMap<>(); 
-            cart.merge(id, 1, Integer::sum);
-            session.setAttribute("cartMap", cart);
+            Map<Integer, Integer> cart = (Map<Integer, Integer>) session.getAttribute("cartMap");
+            if (cart == null) {
+                cart = new LinkedHashMap<>();
             }
+            cart.merge(id, 1, Integer::sum);     // << always add
+            session.setAttribute("cartMap", cart); // << always save back
         }
-
         resp.sendRedirect(req.getContextPath() + "/catalog");
     }
 }
