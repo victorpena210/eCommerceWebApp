@@ -63,6 +63,16 @@
       <form method="post" action="<%=request.getContextPath()%>/checkout" style="margin-top: 12px;">
         <button type="submit">Checkout</button>
       </form>
+      
+      <%
+  String flashError = (String) session.getAttribute("flashError");
+  if (flashError != null) {
+    session.removeAttribute("flashError");
+%>
+    <p style="color:red;"><%= flashError %></p>
+<%
+  }
+%>
 
       <!-- Optional error message from servlet -->
       <% if (request.getAttribute("error") != null) { %>

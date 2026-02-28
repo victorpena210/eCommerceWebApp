@@ -20,8 +20,9 @@ public class LoginServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
-		req.getRequestDispatcher("/WEB-INF/views/login.jsp").forward(req, resp);
-	}
+		req.setAttribute("redirect", req.getParameter("redirect"));
+		req.getRequestDispatcher("/WEB-INF/views/login.jsp").forward(req, resp);	
+		}
 	
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -50,7 +51,9 @@ public class LoginServlet extends HttpServlet {
 		
 		HttpSession session = req.getSession(true);
 		req.changeSessionId();
+		session.setAttribute("userId", user.getId());
 		session.setAttribute("user", user);
+		
 		
 		String redirect = req.getParameter("redirect");
 		if (redirect == null || redirect.isBlank()) {
