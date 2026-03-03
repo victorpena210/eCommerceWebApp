@@ -15,28 +15,32 @@ public class CartServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession(false);
-        List<Product> items = new ArrayList<>();
 
-        if (session != null) {
-            @SuppressWarnings("unchecked")
-            Map<Integer, Integer> cart = (Map<Integer, Integer>) session.getAttribute("cartMap");
-            if (cart != null && !cart.isEmpty()) {
-                for (Map.Entry<Integer, Integer> e : cart.entrySet()) {
-                    Integer id = e.getKey();
-                    Integer qty = e.getValue();
-                    if (qty != null && qty > 0) {
-                        Product p = productService.findById(id);
-                        if (p != null) {
-                            // if you want to show duplicates per quantity:
-                            for (int i = 0; i < qty; i++) items.add(p);
-                            // OR, if you prefer one row with qty, pass `cart` to the JSP too.
-                        }
-                    }
-                }
+        @SuppressWarnings("unchecked")
+        Map<Integer, Integer> cart =
+                (session == null) ? null : (Map<Integer, Integer>) session.getAttribute("cartMap");
+
+        List<com.example.store.model.CartLine> lines = new ArrayList<>();
+        double total = 0.0;
+
+        if (cart != null && !cart.isEmpty()) {
+            for (Map.Entry<Integer, Integer> e : cart.entrySet()) {
+                Integer id = e.getKey();
+                Integer qtyObj = e.getValue();
+                int qty = (qtyObj == null) ? 0 : qtyObj;
+
+                if (qty <= 0) continue;
+
+                Product p = productService.findById(id);
+                if (p == null) continue;
+
+                lines.add(new com.example.store.model.CartLine(p, qty));
+                total += p.getPrice() * qty;
             }
         }
 
-        req.setAttribute("items", items);
+        req.setAttribute("lines", lines);
+        req.setAttribute("total", total);
         req.getRequestDispatcher("/WEB-INF/views/cart.jsp").forward(req, resp);
     }
 }
