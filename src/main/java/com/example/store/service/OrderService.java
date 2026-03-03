@@ -118,7 +118,10 @@ public class OrderService {
      */
     public Order findOrderWithItems(long orderId) {
         String oSql = "SELECT id, user_id, created_at, total FROM orders WHERE id = ?";
-        String iSql = "SELECT id, order_id, product_id, qty, price_each FROM order_items WHERE order_id = ?";
+        String iSql = "SELECT oi.id, oi.order_id, oi.product_id, p.name AS product_name, oi.qty, oi.price_each " +
+        	    "FROM order_items oi " +
+        	    "JOIN products p ON p.id = oi.product_id " +
+        	    "WHERE oi.order_id = ?";
         try (Connection c = ds.getConnection()) {
             Order o = null;
             try (PreparedStatement ps = c.prepareStatement(oSql)) {
@@ -139,13 +142,15 @@ public class OrderService {
                 ps.setLong(1, orderId);
                 try (ResultSet rs = ps.executeQuery()) {
                     while (rs.next()) {
-                        o.getItems().add(new OrderItem(
-                            rs.getLong("id"),
-                            rs.getLong("order_id"),
-                            rs.getInt("product_id"),
-                            rs.getInt("qty"),
-                            rs.getDouble("price_each")
-                        ));
+                    	OrderItem item = new OrderItem(
+                    		    rs.getLong("id"),
+                    		    rs.getLong("order_id"),
+                    		    rs.getInt("product_id"),
+                    		    rs.getInt("qty"),
+                    		    rs.getDouble("price_each")
+                    		);
+                    		item.setProductName(rs.getString("product_name"));
+                    		o.getItems().add(item);
                     }
                 }
             }

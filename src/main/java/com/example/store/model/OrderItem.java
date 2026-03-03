@@ -5,6 +5,7 @@ public class OrderItem {
 	private long id;
 	private long orderId;
 	private int productId;
+	private String productName;
 	private int qty;
 	private double priceEach;
 	
@@ -25,6 +26,14 @@ public class OrderItem {
 	public void setId(long id) {
 		this.id = id;
 	}
+	
+    public String getProductName() {
+        return productName;
+    }
+
+    public void setProductName(String productName) {
+        this.productName = productName;
+    }
 
 	public long getOrderId() {
 		return orderId;
