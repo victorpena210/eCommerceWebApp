@@ -2,10 +2,10 @@
   <Resource name="jdbc/app"
             auth="Container"
             type="javax.sql.DataSource"
-            username="root"
-            password="rootroot"
+            username="appuser"
+            password="app123"
             driverClassName="com.mysql.cj.jdbc.Driver"
-            url="jdbc:mysql://localhost:3306/ecommerce?serverTimezone=UTC"
+            url="jdbc:mysql://localhost:3306/ecommerce?useSSL=false&amp;allowPublicKeyRetrieval=true&amp;serverTimezone=UTC"
             maxTotal="20"
             maxIdle="10"
             maxWaitMillis="10000"/>

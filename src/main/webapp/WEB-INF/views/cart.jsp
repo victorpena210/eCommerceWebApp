@@ -1,6 +1,9 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="java.util.*, com.example.store.model.CartLine" %>
 
+
+<%@ include file="/WEB-INF/views/_header.jspf" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -31,9 +34,6 @@
 
 <% if (lines.isEmpty()) { %>
   <p>Your cart is empty.</p>
-  <div class="actions">
-    <a class="btn" href="<%= request.getContextPath() %>/products">Continue shopping</a>
-  </div>
 <% } else { %>
 
   <table>
@@ -71,7 +71,6 @@
   </table>
 
 <div class="actions">
-  <a class="btn" href="<%= request.getContextPath() %>/products">Continue shopping</a>
 
   <form action="<%= request.getContextPath() %>/checkout" method="post" style="display:inline;">
     <button type="submit" class="btn">Checkout</button>

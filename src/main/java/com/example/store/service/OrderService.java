@@ -159,4 +159,36 @@ public class OrderService {
             throw new RuntimeException("findOrderWithItems failed", e);
         }
     }
+    
+    public List<Order> findOrdersByUserId(int userId) {
+        String sql = "SELECT id, user_id, created_at, total " +
+                     "FROM orders " +
+                     "WHERE user_id = ? " +
+                     "ORDER BY created_at DESC, id DESC";
+
+        List<Order> orders = new ArrayList<>();
+
+        try (Connection c = ds.getConnection();
+             PreparedStatement ps = c.prepareStatement(sql)) {
+
+            ps.setInt(1, userId);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    Order order = new Order(
+                        rs.getLong("id"),
+                        rs.getInt("user_id"),
+                        rs.getTimestamp("created_at").toInstant(),
+                        rs.getDouble("total")
+                    );
+                    orders.add(order);
+                }
+            }
+
+            return orders;
+
+        } catch (SQLException e) {
+            throw new RuntimeException("findOrdersByUserId failed", e);
+        }
+    }
 }
